@@ -1,12 +1,5 @@
 var models = require('../models/models.js');
 
-//GET /quizes/question
-//exports.question = function(req,res) {
-//    models.Quiz.findAll().success(function(quiz) {
-//        res.render('quizes/question', {pregunta: quiz[0].pregunta})
-//    })
-//};
-
 // Autoload - factoriza el código si ruta incluye :quizId
 exports.load = function(req, res, next, quizId) {
     models.Quiz.find(quizId).then(
@@ -23,8 +16,20 @@ exports.load = function(req, res, next, quizId) {
 
 //GET /quizes
 exports.index = function(req, res) {
-    console.log('Hola 01');
-    models.Quiz.findAll().then(function(quizes) {
+    var query = {};
+    if(req.query.search) {
+        var search = req.query.search;
+        console.log(search);
+        search = search.split(" ").join('%');
+        console.log(search);
+        search = '%' + search + '%';
+        console.log(search);
+        query = {
+            where: ["lower(pregunta) like lower(?)", search], order: 'pregunta ASC'
+        };
+    }
+
+    models.Quiz.findAll(query).then(function(quizes) {
         res.render('quizes/index.ejs', {quizes: quizes});
     }).catch(function(error) { next(error);});
 };
@@ -32,9 +37,7 @@ exports.index = function(req, res) {
 
 //GET /quizes/:id
 exports.show = function(req,res) {
-//    models.Quiz.find(req.params.quizId).then(function(quiz) {
-        res.render('quizes/show', {quiz: req.quiz});
-//    })
+    res.render('quizes/show', {quiz: req.quiz});
 };
 
 //GET /quizes/:id/answer
@@ -47,27 +50,3 @@ exports.answer = function(req,res) {
 };
 
 
-//GET /quizes/:id/answer
-//exports.answer = function(req, res) {
-//    models.Quiz.find(req.params.quizId).then(function(quiz) {
-//        if (req.query.respuesta === quiz.respuesta) {
-//            res.render('quizes/answer',
-//                {quiz: quiz, respuesta: 'Correcto' });
-//        } else {
-//            res.render('quizes/answer',
-//                       {quiz: quiz, respuesta: 'Incorrecto'});
-//        }
-//    })
-//};
-
-
-//GET /quizes/answer
-//exports.answer = function(req, res) {
-//    models.Quiz.findAll().success(function(quiz) {
-//        if (req.query.respuesta === quiz[0].respuesta){
-//            res.render('quizes/answer', {respuesta: 'Correcto'});
-//        } else {
-//            res.render('quizes/answer', {respuesta: 'Incorrecto'});
-//        }
-//    })
-//}; 
