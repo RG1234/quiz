@@ -30,6 +30,21 @@ app.use(session());
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+//Auto-logout 2 minutos
+app.use(function(req, res, next) {
+    var tiempo = new Date().getTime();
+    if (req.session.user) {
+        if (tiempo -req.session.user.ultimoAcceso > 120000) {
+            delete req.session.user;
+	    console.log("Tiempo de sesión superior a 2 minutos");
+        } else {
+            req.session.user.ultimoAcceso = tiempo;
+	    console.log("Tiempo de sesión inferior a 2 minutos");
+        }
+    }
+    next();
+});
+
 // Helpers dinámicos
 app.use(function(req, res, next) {
     //guardar path en session.redir para después de login
