@@ -1,0 +1,29 @@
+<div>
+<table class="stat"  style="width:70%">
+    <tr>
+        <th colspan="2"> Estadísticas </th>
+    </tr>
+
+    <tr>
+        <td>Número de preguntas</td>
+        <td> <%= nQuiz %></td> 
+    </tr>
+    <tr>
+        <td>Número de comentarios</td>
+        <td> <%= nComments %></td> 
+    </tr>
+    <tr>
+        <td>Comentarios por pregunta</td>
+        <td> <%= (nComments/nQuiz).toFixed(2) %></td>
+    </tr>
+    <tr >
+        <td>Preguntas sin comentarios</td>
+        <td> <%= nQuizNoComments %></td>
+    </tr>
+    <tr >
+        <td>Preguntas con comentarios</td>
+        <td> <%= nQuiz-nQuizNoComments %></td>
+    </tr>
+
+</table>
+</div>

@@ -11,3 +11,22 @@ footer		{ background: #eee; text-align: center;}
 nav span	{ margin: 0px 10px 0px 0px;}
 #ErrorMsgs      { color: #f61; font-size: smaller}
 
+table.stat {
+    border: 2px solid black;
+    padding: 15px;
+    border-collapse: collapse;
+}
+table.stat td {
+    text-align: left;
+    border: 2px solid black;
+    padding: 15px;
+    border-collapse: collapse;
+
+}
+table.stat th {
+    text-align: center;
+    border: 2px solid black;
+    padding: 15px;
+    border-collapse: collapse;
+
+}
